@@ -1,0 +1,32 @@
+
+
+article {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+article div{
+    /* border: solid 1px black; */
+}
+div button{
+    width: 100%;
+    height: 100%
+}
+
+.img-container {
+    width:60px;
+    height:60px;
+    border: 0px;
+}
+
+article img{
+    object-fit: cover;
+    width:100%;
+    height:100%;
+}
+
+.give-up{
+    width: 300px;
+}
+

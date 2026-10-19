@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    width: 60%;
+    margin: auto;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 1rem;
+}
+
+nav a{
+    box-sizing: border-box;
+    flex: 1 0 4rem;
+}

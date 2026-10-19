@@ -5,10 +5,10 @@ export default function Navbar() {
   return (
     <>
     <header>
-        <h1>Roast Battle New York </h1>
+        <Link to="index">Roast Battle New York </Link>
         <nav>
-            <Link to="/grid">Grid</Link>
-            <a>Log In</a>
+            <NavLink to="/grid">Grid</NavLink>
+            <NavLink to="/login">Log In</NavLink>
         </nav>
     </header>
     </>

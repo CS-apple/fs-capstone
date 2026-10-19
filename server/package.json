@@ -2,20 +2,30 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "imports": {
+    "#*": "./*.js"
+  },
   "scripts": {
-    "dev":"nodemon index.js",
-    "start":"node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch --env-file=.env server.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:user-schema": "psql -d market -f db/user_schema.sql",
+    "db:RB-schema": "psql -d market -f db/RB_schema.sql",
+    "db:RB-seed": "node --env-file=.env db/RB_seed.js",
+    "db:user-seed": "node --env-file=.env db/grid-users-seed",
+    "db:reset": "npm run db:schema && npm run db:seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.1"
   },
   "devDependencies": {
