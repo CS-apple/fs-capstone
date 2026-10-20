@@ -19,13 +19,13 @@ export function AuthProvider({children}) {
             body: JSON.stringify(credentials)
         })
         const result = await response.json()
-        if(!response === 200){
+        if(!response === 201){
             throw Error(result.message)
         }
         console.log(result)
         setToken(result.token);
     }
-
+//
     //login function
         //POST request to API, 
         //capture token in state variable
@@ -36,6 +36,7 @@ export function AuthProvider({children}) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(credentials)
         })
+        console.log(response)
         const result = await response.json()
         if(!response === 200){
             throw Error(result.message)
@@ -48,20 +49,20 @@ export function AuthProvider({children}) {
         //get request,
             //check if token has been set
             //render account else , return error
-    async function getAccount(){
-        const response = await fetch(API+"/users/me", {
-            method: 'GET',
-            headers: {
-                "Content-Type" : 'application/json',
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        const result = await response.json()
-        if(!response === 200){
-            throw Error(result.message)
-        }
-        return result
-    }
+    // async function getAccount(){
+    //     const response = await fetch(API+"/users/me", {
+    //         method: 'GET',
+    //         headers: {
+    //             "Content-Type" : 'application/json',
+    //             'Authorization' : `Bearer ${token}`
+    //         }
+    //     })
+    //     const result = await response.json()
+    //     if(!response === 200){
+    //         throw Error(result.message)
+    //     }
+    //     return result
+    // }
 
     // logout function
         //set token to null 
@@ -70,7 +71,7 @@ export function AuthProvider({children}) {
         setToken(null)
     } 
 
-    const value = {register, logout, login, getAccount, token}
+    const value = {register, logout, login, token}
     return <AuthContext.Provider value = {value}>{children}</AuthContext.Provider>
 }
 

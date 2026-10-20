@@ -23,13 +23,13 @@ async function tryRegister(formData){
   const password = formData.get("password")
 
   try {
-    await register({username, password, });
+    await register({username, password});
     navigate("/account");
   } 
-  
-  catch (e) {
+  catch(e) {
     setError(e.message);
 }
+
 }
 
   return (

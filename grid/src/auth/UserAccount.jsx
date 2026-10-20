@@ -5,41 +5,40 @@ import { useNavigate, Link } from 'react-router'
 export default function UserAccount() {
     const [user, setUser] = useState(null)
     // const [reservations, setReservations] = useState([])
-    const {token, getAccount} = useAuth()
+    const {token} = useAuth()
 
-async function getUser(){
-    if(token){
-        const currentUser = await getAccount()
-        setUser(currentUser)
-        // console.log(user)
-    }
-    console.log(user)
-    return
-}
+// async function getUser(){
+//     if(token){
+//         const currentUser = await getAccount()
+//         setUser(currentUser)
+//         // console.log(user)
+//     }
+//     console.log(user)
+//     return
+// }
 
-async function getUserReservations(){
-    if(token){
-        const reservedBooks = await getReservedBooks(token)
-        setReservations(reservedBooks)
-        console.log(reservedBooks);
-    }
-    return
-}
+// async function getUserReservations(){
+//     if(token){
+//         const reservedBooks = await getReservedBooks(token)
+//         setReservations(reservedBooks)
+//         console.log(reservedBooks);
+//     }
+//     return
+// }
 
-    useEffect(()=>{
-        getUser()
-        getUserReservations()
-    },[])
+    // useEffect(()=>{
+    //     getUser()
+    //     getUserReservations()
+    // },[])
 
-const handleCancel = async (id, token)=>{
-    await returnBook(id, token); 
-    await getUserReservations(token);}
+// const handleCancel = async (id, token)=>{
+//     await returnBook(id, token); 
+//     await getUserReservations(token);}
 
   return (
     <>
-    <h2>Welcome {user?.firstname}</h2>
-    <p>The email we have on file is {user?.email}</p>
-    <ReservedBookList list={reservations} token={token} handleClick={handleCancel}/>
+    <h2>Welcome </h2>
+    <p>The email we have on file is :</p>
     </>
 
   )

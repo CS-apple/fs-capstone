@@ -16,7 +16,7 @@ router.post("/register", requireBody(["username", "password"]), async (req,res) 
     const{username, password} = req.body;
     const newUser = await createUser(username, password);
     const token = createToken({id:newUser.id});
-    res.status(201).send(token);
+    res.status(201).json({token});
 });
 
 router.post("/login",requireBody(["username", "password"]), async (req,res) => {
@@ -28,7 +28,7 @@ router.post("/login",requireBody(["username", "password"]), async (req,res) => {
     const user = await getUserWithUsernameAndPassword(username, password)
     if(!user)return res.status(401).send("invalid username or password")
     const token = createToken({id:user.id})
-    res.status(200).send(token)
+    res.status(200).json({token})
 })
 
  export default router;
