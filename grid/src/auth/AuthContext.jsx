@@ -45,24 +45,24 @@ export function AuthProvider({children}) {
         setToken(result.token);
     }
 
-    //get account function
-        //get request,
-            //check if token has been set
-            //render account else , return error
-    // async function getAccount(){
-    //     const response = await fetch(API+"/users/me", {
-    //         method: 'GET',
-    //         headers: {
-    //             "Content-Type" : 'application/json',
-    //             'Authorization' : `Bearer ${token}`
-    //         }
-    //     })
-    //     const result = await response.json()
-    //     if(!response === 200){
-    //         throw Error(result.message)
-    //     }
-    //     return result
-    // }
+    // get account function
+    //     get request,
+    //         check if token has been set
+    //         render account else , return error
+    async function getAccount(){
+        const response = await fetch(API+"/users/me", {
+            method: 'GET',
+            headers: {
+                "Content-Type" : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        const result = await response.json()
+        if(!response === 200){
+            throw Error(result.message)
+        }
+        return result
+    }
 
     // logout function
         //set token to null 

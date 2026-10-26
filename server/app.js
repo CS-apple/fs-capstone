@@ -3,7 +3,8 @@ import express from "express";
 import cors from 'cors'
 import {Router} from "express";
 import usersRouter from "#api/grid-users"
-
+import gridRouter from "#api/grid"
+import battlerRouter from "#api/battlers"
 const app = express();
 
 export default app;
@@ -13,6 +14,8 @@ app.use(express.json())
 app.use(getUserFromToken)
 
 app.use("/users", usersRouter)
+app.use("/grid", gridRouter)
+app.use("/battlers", battlerRouter)
 
 app.get("/",(req,res)=>{
     res.send("pinging app")
