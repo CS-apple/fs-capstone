@@ -8,6 +8,7 @@ console.log("🌱 Database seeded.");
 
 async function seedcatagories(){
 const categories = [
+        //home city, or has battled in 
         // Lifetime Stats: Wins
         ['Lifetime wins >= 7', 'lifetime_wins', null, 7, true],
         ['Lifetime wins >= 10', 'lifetime_wins', null, 10, true],
