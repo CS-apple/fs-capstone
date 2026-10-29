@@ -9,10 +9,17 @@ const{rows:[category]} = await db.query(sql, [name, categoryType, targetId, para
 return category
 }
 
+
 export async function getCategories(){
     const sql = `SELECT * FROM categories`;
     const {rows: categories } = await  db.query(sql)
     return categories;
+}
+
+export async function getCategoryById(id){
+    const sql = `SELECT * FROM categories WHERE id = $1`;
+    const {rows: [category] } = await  db.query(sql, [id])
+    return category;
 }
 
 function buildCellQuery(rowCat, colCat) {
@@ -24,9 +31,9 @@ function buildCellQuery(rowCat, colCat) {
   const rowVal = rowCat.target_id || rowCat.parameter;
   const colVal = colCat.target_id || colCat.parameter;
 
-  // Row uses $1
+
   const { sql: rowSql, param: rowParam } = rowGen(rowVal, '$1');
-  // Column uses $2
+
   const { sql: colSql, param: colParam } = colGen(colVal, '$2');
 
   const query = `
@@ -59,6 +66,52 @@ export async function isGridSolvable( rowCategories, colCategories ) {
   }
   return true; // All 9 cells have at least one valid answer
 }
+
+export async function saveGrid(rowCategories, colCategories){
+    const sql = `INSERT INTO grids (rows, cols) VALUES ($1, $2) RETURNING *`;
+    const{rows:[newGrid]}= await db.query(sql,[rowCategories,colCategories])
+    return newGrid
+}
+
+
+export function buildGuessQuery(battlerId, rowCat, colCat) {
+  const rowGen = generateSql[rowCat.category_type];
+  if(!rowGen){throw new Error(`missing sql generator:${rowCat.category_type}`)}
+  const colGen = generateSql[colCat.category_type];
+  if(!colGen){throw new Error(`missing sql generator:${colCat.category_type}`)}
+
+  const rowVal = rowCat.target_id || rowCat.parameter;
+  const colVal = colCat.target_id || colCat.parameter;
+
+  // Row uses $2
+  const { sql: rowSql, param: rowParam } = rowGen(rowVal, '$2');
+  // Column uses $3
+  const { sql: colSql, param: colParam } = colGen(colVal, '$3');
+
+  const query = `
+    SELECT EXISTS (
+      SELECT 1 FROM battlers b
+      WHERE b.id = $1
+      AND (${rowSql}) 
+        AND (${colSql})
+    ) AS has_match;
+  `;
+  return { query, params: [ battlerId, rowParam, colParam] };
+}
+
+export async function checkGuess(battlerId, rowCategoryId, colCategoryId){
+    //build guess query
+    //run guess query with supplied info, 
+    //return true if battler is in grid, else return false 
+    const rowCat = await getCategoryById(rowCategoryId)
+    const colCat = await getCategoryById(colCategoryId)
+    const {query, params} = buildGuessQuery(battlerId,rowCat,colCat)
+    const{rows:[match]} = await db.query(query, params)
+    console.log(match)
+    return match?.has_match ?? false;
+}
+
+
 
 const generateSql = {
     lifetime_wins: (parameter, placeholder) => ({

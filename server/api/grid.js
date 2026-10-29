@@ -1,5 +1,7 @@
 import {Router} from "express";
-import{getCategories, isGridSolvable} from "#db/queries/grid-categories"
+import{getCategories, isGridSolvable, buildGuessQuery, checkGuess} from "#db/queries/grid-categories"
+import requireBody from "#middleware/requireBody";
+
 
 const router = Router();
 
@@ -10,6 +12,22 @@ router.get("/", async(req,res)=>{
     // const solvable = await isGridSolvable(grid)
     // console.log(solvable)
     return res.status(200).json(grid)
+})
+
+router.post("/", requireBody(["battlerId", "rowCategoryId", "colCategoryId"]), async(req, res)=>{
+    //build sql query with params
+    //run query, await response, 
+    //unpack rows
+    //if valid return true
+    // else return false 
+    try{
+    const {battlerId, rowCategoryId, colCategoryId} = req.body;
+    const isValid = await checkGuess(battlerId,rowCategoryId, colCategoryId)
+    console.log(isValid)
+    return res.status(200).json({correct:isValid})
+    }catch(err){
+       console.log(err)
+    }
 })
 
 export default router;
@@ -46,11 +64,9 @@ async function validateGrid(){
     while (!isSolvable && attempts < maxAttempts) {
         attempts++;
         try{
-        // Step A: Generate a random 3x3 layout
         potentialGrid = await generateGrid();
-        console.log(potentialGrid)
+        // console.log(potentialGrid)
 
-        // Step B: Test if all 9 cells have at least one valid battler match
         isSolvable = await isGridSolvable(potentialGrid.rowCategories, potentialGrid.colCategories);
 
         if (!isSolvable) {

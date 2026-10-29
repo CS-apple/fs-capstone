@@ -9,6 +9,10 @@ console.log("🌱 Database seeded.");
 async function seedcatagories(){
 const categories = [
         //home city, or has battled in 
+        // ['Cleveland', 'city','34R1xSji5u4ZORWkNetI' ,null, true]
+        // ['New York', 'city', 'za2nHt1bzRQ0xgVRbCg2', null, true]
+        // ['Los Angelas', 'city', 'EzOfMEwWjCcQ7OF6lHb9', null, true]
+        // ['Austin', 'city', 'CmNo4c2Rjr2PKRLxPlsU', null, true]
         // Lifetime Stats: Wins
         ['Lifetime wins >= 7', 'lifetime_wins', null, 7, true],
         ['Lifetime wins >= 10', 'lifetime_wins', null, 10, true],
