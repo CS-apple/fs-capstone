@@ -16,6 +16,8 @@ router.get("/:battlerId", async (req,res)=>{
     return res.status(200).json(battler)
 })
 
+//get battler id by name? 
+
 
 
 export default router

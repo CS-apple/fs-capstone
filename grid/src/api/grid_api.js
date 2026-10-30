@@ -4,6 +4,7 @@ export async function getBattlers(){
     try{
         const response = await fetch(API+'/battlers');
         const result = await response.json();
+        // console.log("battlers", result)
         return result;
     }catch(err){
         console.log(err)
@@ -20,7 +21,7 @@ export async function getBattlersById(id){
     }
 }
 
-export async function generateGrid(){
+export async function generateValidGrid(){
     try{
         const response = await fetch(API+'/grid');
         const result = await response.json();
@@ -32,7 +33,7 @@ export async function generateGrid(){
 
 //get saved grid
 
-export async function submitGuesss(battlerId,rowCategoryId, colCategoryId ){
+export async function submitGuesss({battlerId,rowCategoryId, colCategoryId }){
     const payload = {"battlerId": battlerId, "rowCategoryId":rowCategoryId,"colCategoryId":colCategoryId }
     try{
         const response = await fetch(API+"/grid", {
