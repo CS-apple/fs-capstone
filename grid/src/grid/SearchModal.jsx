@@ -1,9 +1,18 @@
 import React from 'react'
 import { useState } from 'react'
+import { useGame } from '../GameContext/GameContext'
 
-export default function SearchModal({cell, onClose, onSubmit, battlerList}){
+export default function SearchModal(){
+    const{
+        activeCell,
+        searchActive,
+        closeSearchModal,
+        selectBattler,
+        battlerList,
+    } = useGame();
+
   const [battler, setBattler]= useState('')
-  // const [results, setResults] = useState([])
+//   // const [results, setResults] = useState([])
   const [selectedBattler, setSelectedBattler] = useState(null)
 
 
@@ -17,26 +26,33 @@ export default function SearchModal({cell, onClose, onSubmit, battlerList}){
   function handleSelectedBattler(battler){
     setSelectedBattler(battler)
     setBattler(battler.name)
+    results=[]
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
   
-    const targetId = selectedBattler ? selectedBattler : battler
-    //IF battler NEED AN API CALL TO GET BATTLER BY NAME AND PASS ID TO ONSUBMIT
-    onSubmit(
-      targetId
-    )
+    const targetBattler = selectedBattler || battlerList.find(b => b.name.toLowerCase() === battler.toLowerCase())
+    if(!targetBattler){
+        console.log("not found by name, please select from list")
+    }
 
-  onClose()
+    selectBattler(activeCell.rowId, activeCell.colId, targetBattler)
+
+    setBattler('');
+    setSelectedBattler(null);
+    closeSearchModal();
   }
 
+
+if(!searchActive) return(null)
+
   return(
-    <div onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()}>
+    <div className='ModalBKG' onClick={closeSearchModal}>
+      <div onClick={(e)=>(e.stopPropagation())}>
         <form onSubmit={handleSubmit}>
           <label>
-            Search Battler {cell.rowCategoryId}x{cell.colCategoryId}
+            Search Battler for ({activeCell?.rowId},{activeCell?.colId})
             <input 
             type="text" 
             value={battler}
@@ -61,7 +77,7 @@ export default function SearchModal({cell, onClose, onSubmit, battlerList}){
               )}
           <button type = "submit" >Submit</button>
         </form>
-          <button type="button" onClick={onClose}>❌ Close</button>
+          <button type="button" onClick={closeSearchModal}>❌ Close</button>
       </div>
     </div>
   )
