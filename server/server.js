@@ -1,10 +1,15 @@
+import fs from "fs";
+import path from "path";
 import dotenv from "dotenv";
 
-// If you mounted your secret file as .env in the root directory on Render:
-dotenv.config(); 
-
-// Or if Render places it in a secrets directory, specify the path:
-// dotenv.config({ path: '/etc/secrets/.env' });
+// 1. Explicitly check Render's absolute secret location first
+if (fs.existsSync("/etc/secrets/.env")) {
+  dotenv.config({ path: "/etc/secrets/.env" });
+} else {
+  // 2. Fallback to local .env (or project root .env) for development
+  dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+  dotenv.config(); // fallback default check
+}
 
 import app from "#app";
 import db from "#db/client";
