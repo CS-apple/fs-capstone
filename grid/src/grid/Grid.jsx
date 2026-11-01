@@ -5,27 +5,26 @@ import GridBoard from './GridBoard'
 import RemainingGuesses from './RemainingGuesses'
 import './grid.css'
 import SearchModal from './SearchModal'
+import ScoreSummary from '../scoreSummary/ScoreSummary'
+import {useGame} from '../GameContext/GameContext'
 
 
 //MAIN COMPONENT
 export default function Grid() {
-  const [grid, setGrid] = useState(null)
-  const[battlerList, setBattlerList]= useState([])
-  const [gameState, setGameState] = useState(null)
-  const [guesses, setGuesses] = useState(4)
+const{gameState} = useGame()
 
   return (
     <>
       <h2>Play immaculate grid</h2>
       <section>
-          <h3>GRID #0000</h3>
+          {/* <h3>GRID #0000</h3>
           <Link>Previous grids</Link>
-          <Link>Todays Results</Link>
+          <Link>Todays Results</Link> */}
           <Link>Rules</Link>
             <RemainingGuesses />
-
             <GridBoard />
             <SearchModal />
+            <ScoreSummary />
       </section>
     </>
   )

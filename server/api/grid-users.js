@@ -1,5 +1,6 @@
 import {Router} from "express";
 import requireBody from "#middleware/requireBody";
+import getUserFromToken from "#middleware/getUserFromToken";
 import { createUser, getUserWithUsernameAndPassword } from "#db/queries/grid-users";
 import {createToken, verifyToken } from "#utils/jwt"
 const router = Router();
@@ -29,6 +30,10 @@ router.post("/login",requireBody(["username", "password"]), async (req,res) => {
     if(!user)return res.status(401).send("invalid username or password")
     const token = createToken({id:user.id})
     res.status(200).json({token})
+})
+
+router.get("/me", getUserFromToken, async(req,res)=>{
+    res.status(200).json(req.user)
 })
 
  export default router;

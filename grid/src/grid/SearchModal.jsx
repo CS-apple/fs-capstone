@@ -45,7 +45,7 @@ export default function SearchModal(){
   }
 
 
-if(!searchActive) return(null)
+if(!searchActive) return(false)
 
   return(
     <div className='ModalBKG' onClick={closeSearchModal}>

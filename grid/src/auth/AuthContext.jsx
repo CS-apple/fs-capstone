@@ -22,7 +22,7 @@ export function AuthProvider({children}) {
         if(!response === 201){
             throw Error(result.message)
         }
-        console.log(result)
+        // console.log(result)
         setToken(result.token);
     }
 //
@@ -41,7 +41,7 @@ export function AuthProvider({children}) {
         if(!response === 200){
             throw Error(result.message)
         }
-        console.log(result)
+        // console.log(result)
         setToken(result.token);
     }
 
@@ -71,7 +71,7 @@ export function AuthProvider({children}) {
         setToken(null)
     } 
 
-    const value = {register, logout, login, token}
+    const value = {register, logout, login, token, getAccount}
     return <AuthContext.Provider value = {value}>{children}</AuthContext.Provider>
 }
 

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { generateValidGrid, submitGuesss, getBattlers } from '../api/grid_api'
 import SearchModal from '../grid/SearchModal'
+import ScoreSummary from '../scoreSummary/ScoreSummary';
 
 const GameContext = createContext(null);
 
@@ -8,11 +9,16 @@ export function GameProvider({ children }) {
 const [grid, setGrid] = useState(null)
 const [battlerList, setBattlerList] = useState(null)
 const [gameState, setGameState] = useState(null)
-const [searchActive, setSearchActive]= useState(null)
+const [searchActive, setSearchActive]= useState(false)
 const [activeCell, setActiveCell] = useState()
 const [cellState,setCellState] = useState({})
 const [guesses, setGuesses] = useState(4)
+const [score, setScore] = useState(0)
+const [summaryActive, setSummaryActive] = useState(false)
+const [rulesActive, setRulesActive] = useState(false)
 
+const plusScore = 25
+const minusScore = 10
 //initialize game board 
 useEffect(() => {
   async function initialize() {
@@ -26,7 +32,7 @@ useEffect(() => {
   setBattlerList(allBattlers);
   // console.log(battlerList)
 
-  setGameState("Play")
+  setGameState("Pay")
   
 }
   initialize()
@@ -49,7 +55,7 @@ const handleGuessSubmit = async (guess) => {
     setActiveCell(null)
     setSearchActive(false)
   }
-// so we need to track results for each cell so we will store the state as the cells (xypair)
+
   const selectBattler = async (rowId, colId, battler)=>{
     if(!activeCell)return
     const isValid = handleGuess(battler)
@@ -64,7 +70,6 @@ const handleGuessSubmit = async (guess) => {
     console.log("isCorrect", isCorrect)
     const cellKey= `${rowId},${colId}`
     console.log("battler", battler)
-    //if is corrrect and is in cellState, must use another battler, should not count against guesses
 
     setCellState((prev)=>({
         ...prev,
@@ -90,6 +95,31 @@ const handleGuess = (battler)=>
     return  true
 }
 
+const gameOver=() => {
+    setGameState("END")
+}
+
+const calcScore = ()=>{
+    let score = 0;
+    for(const key in cellState) {
+        const cell = cellState[key]
+        if(cell && cell.correct){
+                console.log(("score correct "))
+                score += plusScore
+            } else if(cell && cell.correct === false) {
+                console.log("wrong answers")
+                score -= minusScore
+        }
+    }
+   if(score < 0){score = 0}
+    console.log("final score", score)
+    setScore(score)
+    return 
+}
+
+//on game end save rows and columns & history to db for username
+
+
 //game ends when guesses = 0 or when give up is pessed
 //on change to game state end, calculate score and show to player, 
 //should include a rules modal 
@@ -103,14 +133,20 @@ const handleGuess = (battler)=>
         activeCell,
         grid,
         battlerList,
-        searchActive,
         cellState,
         handleGuessSubmit,
-        searchActive,
         openSearchModal,
         closeSearchModal,
         selectBattler,
         guesses,
+        gameOver,
+        gameState,
+        calcScore,
+        score,
+        searchActive,
+        rulesActive,
+        summaryActive,
+        setSummaryActive,
       }}
     >
       {children}
