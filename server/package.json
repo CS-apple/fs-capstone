@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node --watch --env-file=.env server.js",
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:grid-schema": "node --env-file=.env db/grid_schema.sql",
     "db:user-schema": "node --env-file=.env db/user_schema.sql",
