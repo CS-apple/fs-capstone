@@ -11,15 +11,16 @@ export default app;
 
 app.use(cors())
 app.use(express.json())
-app.use(getUserFromToken)
+
+app.get("/",(req,res)=>{
+    res.send("pinging app")
+})
 
 app.use("/users", usersRouter)
 app.use("/grid", gridRouter)
 app.use("/battlers", battlerRouter)
 
-app.get("/",(req,res)=>{
-    res.send("pinging app")
-})
+
 
 app.use((err, req, res, next)=>{
     console.error(err);
