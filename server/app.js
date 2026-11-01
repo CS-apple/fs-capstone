@@ -7,7 +7,7 @@ import gridRouter from "#api/grid"
 import battlerRouter from "#api/battlers"
 const app = express();
 
-export default app;
+
 
 app.use(cors())
 app.use(express.json())
@@ -26,3 +26,5 @@ app.use((err, req, res, next)=>{
     console.error(err);
     res.status(500).send("something went wrong")
 })
+
+export default app;

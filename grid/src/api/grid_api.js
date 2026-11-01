@@ -15,6 +15,7 @@ export async function getBattlersById(id){
     try{
         const response = await fetch(API+'/battlers'+id);
         const result = await response.json();
+        
         return result;
     }catch(err){
         console.log(err)
@@ -23,11 +24,23 @@ export async function getBattlersById(id){
 
 export async function generateValidGrid(){
     try{
-        const response = await fetch(API+'/grid');
+        const response = await fetch(`${API_URL}/grid`, {
+            headers: {
+                'Cache-Control': 'no-cache', // Prevents unwanted 304 caching issues
+                'Pragma': 'no-cache'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server returned status ${response.status}`);
+        }
+
         const result = await response.json();
+
         return result;
     }catch(err){
         console.log(err)
+        return null;
     }
 }
 
