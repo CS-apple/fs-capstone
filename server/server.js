@@ -1,3 +1,11 @@
+import dotenv from "dotenv";
+
+// If you mounted your secret file as .env in the root directory on Render:
+dotenv.config(); 
+
+// Or if Render places it in a secrets directory, specify the path:
+// dotenv.config({ path: '/etc/secrets/.env' });
+
 import app from "#app";
 import db from "#db/client";
 
