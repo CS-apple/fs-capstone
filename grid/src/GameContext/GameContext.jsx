@@ -42,7 +42,6 @@ const handleGuessSubmit = async (guess) => {
     console.log("submit guess", guess)
     const isCorrect = await submitGuesss(guess)
     return isCorrect
-    console.log("isCorrect", isCorrect)
 
   }
 

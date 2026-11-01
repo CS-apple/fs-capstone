@@ -1,0 +1,149 @@
+/*
+ * Roast Battle League stylekit - theme tokens and utility classes.
+ *
+ * Two ways to consume this file:
+ *  1. Tailwind CSS v4: copy the `@theme { ... }` block and the utility classes
+ *     into your global stylesheet. Tokens then generate utilities such as
+ *     `bg-brand-red`, `font-display`, `border-border-glass`, `animate-fade-in`.
+ *  2. Plain CSS / CSS Modules / any framework: load this file with <link> or
+ *     @import. Browsers ignore the unknown `@theme` at-rule, so the same
+ *     tokens are repeated in `:root` as standard custom properties
+ *     (use them as `var(--color-brand-red)`).
+ *
+ * The utility classes below are wrapped in `@layer components` on purpose: in
+ * Tailwind v4 (and v3 when pasted into a components layer) Tailwind's own
+ * utilities then win over them, so `glass-card rounded-2xl bg-[#0d0d0d]`
+ * renders with the radius and background you asked for. Plain browsers
+ * apply layered rules normally.
+ *
+ * Fonts are loaded separately from Google Fonts (see README.md).
+ */
+
+@theme {
+  /* Typography */
+  --font-display: 'Anton', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+
+  /* Brand & theme colors */
+  --color-brand-black: #050505;
+  --color-brand-purple: #321848;
+  --color-brand-red: #ff0000;
+  --color-surface-elevated: #0d0d0d;
+  --color-surface-card: rgba(255, 255, 255, 0.04);
+  --color-border-glass: rgba(255, 255, 255, 0.10);
+
+  /* Interactive & game state colors */
+  --color-cell-empty: rgba(255, 255, 255, 0.05);
+  --color-cell-hover: rgba(255, 255, 255, 0.10);
+  --color-cell-active-border: #ff0000;
+  --color-match-correct: #22c55e;
+  --color-match-correct-glow: rgba(34, 197, 94, 0.35);
+  --color-match-incorrect: #ef4444;
+  --color-match-incorrect-glow: rgba(239, 68, 68, 0.35);
+
+  /* Animation */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  @keyframes fade-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+}
+
+:root {
+  /* Typography */
+  --font-display: 'Anton', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+
+  /* Brand & theme colors */
+  --color-brand-black: #050505;
+  --color-brand-purple: #321848;
+  --color-brand-red: #ff0000;
+  --color-surface-elevated: #0d0d0d;
+  --color-surface-card: rgba(255, 255, 255, 0.04);
+  --color-border-glass: rgba(255, 255, 255, 0.10);
+
+  /* Interactive & game state colors */
+  --color-cell-empty: rgba(255, 255, 255, 0.05);
+  --color-cell-hover: rgba(255, 255, 255, 0.10);
+  --color-cell-active-border: #ff0000;
+  --color-match-correct: #22c55e;
+  --color-match-correct-glow: rgba(34, 197, 94, 0.35);
+  --color-match-incorrect: #ef4444;
+  --color-match-incorrect-glow: rgba(239, 68, 68, 0.35);
+
+  /* Animation */
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+@layer components {
+  /* Glassmorphism Container */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+
+  /* Slanted Red Accent Badge */
+  .slanted-red {
+    position: relative;
+    background: var(--color-brand-red, #ff0000);
+    clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display, 'Anton', sans-serif);
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  /* Reverse Slanted Badge */
+  .slanted-red-reverse {
+    position: relative;
+    background: var(--color-brand-red, #ff0000);
+    clip-path: polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%);
+  }
+
+  /* Radial Poster Atmosphere */
+  .poster-gradient {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+  }
+
+  /* Transparent Text with Outline */
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+  }
+
+  /* Game feedback: correct guess (green border + glow) */
+  .cell-correct {
+    background: rgba(34, 197, 94, 0.10);
+    border: 2px solid var(--color-match-correct, #22c55e);
+    box-shadow: 0 0 15px var(--color-match-correct-glow, rgba(34, 197, 94, 0.35));
+  }
+
+  /* Game feedback: incorrect guess (red border + glow) */
+  .cell-incorrect {
+    background: rgba(239, 68, 68, 0.10);
+    border: 2px solid var(--color-match-incorrect, #ef4444);
+    box-shadow: 0 0 15px var(--color-match-incorrect-glow, rgba(239, 68, 68, 0.35));
+  }
+
+  /* Fallback for plain CSS (Tailwind v4 generates this utility from --animate-fade-in) */
+  .animate-fade-in {
+    animation: var(--animate-fade-in, fade-in 0.3s ease-out);
+  }
+}
+
+/* Plain-CSS copy of the keyframes (Tailwind v4 reads the copy inside @theme) */
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Optional thin scrollbar for long lists (add class `custom-scrollbar`) */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
