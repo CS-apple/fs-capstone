@@ -31,9 +31,9 @@ export default function GridCell({
            (<div className="cell-correct w-full h-full rounded-lg flex flex-col items-center justify-center p-2 relative animate-fade-in">
             <img 
             src={cellData.battler.image_url} 
-            className="absolute inset-0 w-full h-full object-cover opacity-80"/>
-            <div className="cell-incorrect w-full h-full rounded-lg flex flex-col items-center justify-center p-2 relative animate-fade-in bg-red-950/20">
-              <span className="font-accent text-xs font-bold text-red-400 text-center line-clamp-2 px-1">{cellData.battler.name}</span>
+            className=" rounded-lg absolute inset-0 w-full h-full object-cover opacity-80"/>
+            <div className=" w-full h-full rounded-lg flex flex-col items-center justify-center p-2 relative animate-fade-in bg-red-950/20">
+              <span className="font-accent text-xs font-bold text-white-400 text-center line-clamp-2 px-1">{cellData.battler.name}</span>
             </div>
            </div>)
            :
