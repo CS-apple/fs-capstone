@@ -5,13 +5,17 @@ import requireBody from "#middleware/requireBody";
 
 const router = Router();
 
-router.get("/", async(req,res)=>{
-    // const categories = await getCategories();
-    // const grid = await generateGrid()
+router.get("/", async(req,res,next)=>{
+    try{
+    console.log("fetching grid")
     const grid = await validateGrid()
-    // const solvable = await isGridSolvable(grid)
-    // console.log(solvable)
+    console.log(" got grid")
     return res.status(200).json(grid)
+    }catch(err){
+        console.log("error /grid route", err);
+        next(err)
+    }
+
 })
 
 router.post("/", requireBody(["battlerId", "rowCategoryId", "colCategoryId"]), async(req, res)=>{
