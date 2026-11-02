@@ -24,7 +24,7 @@ export async function getBattlersById(id){
 
 export async function generateValidGrid(){
     try{
-        const response = await fetch(`${API_URL}/grid`, {
+        const response = await fetch(`${API}/grid`, {
             headers: {
                 'Cache-Control': 'no-cache', // Prevents unwanted 304 caching issues
                 'Pragma': 'no-cache'
